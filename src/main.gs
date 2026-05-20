@@ -175,6 +175,26 @@ function createDailyTrigger() {
 }
 
 /**
+ * Setup trigger to run weekly
+ */
+function createWeeklyTrigger() {
+  // Remove existing triggers
+  ScriptApp.getProjectTriggers()
+    .filter(t => t.getHandlerFunction() === 'processEmails')
+    .forEach(t => ScriptApp.deleteTrigger(t));
+  
+  // Create new trigger
+  ScriptApp.newTrigger('processEmails')
+    .timeBased()
+    .everyWeeks(1)
+    .onWeekDay(ScriptApp.WeekDay.MONDAY)
+    .atHour(9)
+    .create();
+    
+  console.log('Weekly trigger created (runs every Monday at 9:00 AM)');
+}
+
+/**
  * Remove all triggers
  */
 function removeTriggers() {
